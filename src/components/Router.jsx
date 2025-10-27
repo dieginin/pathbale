@@ -8,7 +8,7 @@ export function Router({
   children,
   routes = [],
   loadingPage: LoadingPage = () => <h1>Loading...</h1>, // TODO Mejorar componente de carga
-  errorPage: ErrorPage = () => <h1>404 - Not Found</h1>, // TODO Mejorar componente 404
+  notFoundPage: NotFoundPage = () => <h1>404 - Not Found</h1>, // TODO Mejorar componente 404
 }) {
   const [currentPath, setCurrentPath] = useState(getCurrentPath())
 
@@ -36,7 +36,7 @@ export function Router({
 
       params = matched.params
       return true
-    })?.component || ErrorPage
+    })?.component || NotFoundPage
 
   return (
     <Suspense fallback={LoadingPage}>
