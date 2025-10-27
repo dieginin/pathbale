@@ -1,0 +1,6 @@
+src
+public
+index.html
+eslint.config.js
+vite.config.js
+.swcrc
