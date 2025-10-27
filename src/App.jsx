@@ -24,7 +24,7 @@ const appRoutes = [
 function App() {
   return (
     <main>
-      <Router routes={appRoutes} errorPage={Page404}>
+      <Router routes={appRoutes} notFoundPage={Page404}>
         <Route path='/about' component={AboutPage} />
         <Route path='/search/:query' component={SearchPage} />
       </Router>

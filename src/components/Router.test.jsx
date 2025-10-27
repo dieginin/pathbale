@@ -26,7 +26,7 @@ describe("Router", () => {
   })
 
   it("should render 404 if no route match", () => {
-    render(<Router errorPage={() => <h1>404</h1>} />)
+    render(<Router notFoundPage={() => <h1>404</h1>} />)
     expect(screen.getByText("404")).toBeTruthy()
   })
 
