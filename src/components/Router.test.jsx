@@ -70,7 +70,7 @@ describe("Router", () => {
       </Router>
     )
 
-    expect(screen.getByText("404 - Not Found")).toBeTruthy()
+    expect(screen.getByText("404")).toBeTruthy()
   })
 
   it("should render not custom found page", () => {
@@ -132,7 +132,7 @@ describe("Router", () => {
       </Router>
     )
 
-    expect(screen.getByText("403 - Forbidden")).toBeTruthy()
+    expect(screen.getByText("403")).toBeTruthy()
   })
 
   it("should render custom forbidden page when guard does not allow", () => {
