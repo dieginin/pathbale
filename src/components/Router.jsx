@@ -2,14 +2,17 @@ import { Children, Suspense, useEffect, useState } from "react"
 import { addListeners, removeListeners } from "../utils/listeners"
 import { getCurrentPath, navigateTo } from "../utils/paths"
 
+import Forbidden403 from "../pages/Forbidden403"
+import Loading from "./Loading"
+import NotFound404 from "../pages/NotFound404"
 import { match } from "path-to-regexp"
 
 export function Router({
   children,
   routes = [],
-  notFoundPage: NotFoundPage = () => <h1>404 - Not Found</h1>, // TODO Mejorar componente 404
-  forbiddenPage: ForbiddenPage = () => <h1>403 - Forbidden</h1>, // TODO Mejorar componente 403
-  loadingComponent: LoadingComponent = <h1>Loading...</h1>, // TODO Mejorar componente de carga
+  notFoundPage: NotFoundPage = NotFound404,
+  forbiddenPage: ForbiddenPage = Forbidden403,
+  loadingComponent: LoadingComponent = <Loading />,
 }) {
   const [currentPath, setCurrentPath] = useState(getCurrentPath())
 
