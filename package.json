@@ -1,6 +1,6 @@
 {
   "name": "pathbale",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "A lightweight and declarative router for React by NextBale.",
   "type": "module",
   "main": "lib/index.js",
