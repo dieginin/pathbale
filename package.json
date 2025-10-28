@@ -1,6 +1,6 @@
 {
   "name": "pathbale",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A lightweight and declarative router for React by NextBale.",
   "type": "module",
   "main": "lib/index.js",
@@ -33,16 +33,18 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "prepare": "npm run test && swc src/components src/utils src/index.jsx --ignore **/*.test.jsx -d lib --strip-leading-paths",
+    "prepare": "npm run test && swc src/components src/utils src/hooks src/index.jsx --ignore **/*.test.jsx -d lib --strip-leading-paths && lightningcss --minify --bundle src/theme.css -o lib/theme.css",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
     "path-to-regexp": "8.3.0"
+  },
+  "peerDependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
@@ -59,6 +61,7 @@
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
     "happy-dom": "^20.0.8",
+    "lightningcss-cli": "^1.30.2",
     "vite": "^7.1.7",
     "vitest": "^4.0.3"
   }
