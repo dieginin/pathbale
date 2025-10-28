@@ -1,6 +1,6 @@
 import { addListeners, removeListeners } from "../utils/listeners"
 import { getCurrentPath, navigateTo } from "../utils/paths"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 import { match } from "path-to-regexp"
 
@@ -14,30 +14,51 @@ export default function usePath({ routes, NotFoundPage, ForbiddenPage }) {
     return () => removeListeners(onLocationChange)
   }, [])
 
-  let params = {}
-  const matchedRoute = routes.find(({ path }) => {
-    if (path === currentPath) return true
+  // Memorize the matching result to avoid unnecessary calculations
+  const { matchedRoute, params } = useMemo(() => {
+    let routeParams = {}
 
-    const matchResult = match(path, { decode: decodeURIComponent })
-    const matched = matchResult(currentPath)
-    if (!matched) return false
-    params = matched.params
-    return true
-  })
+    const foundRoute = routes.find(({ path }) => {
+      if (path === currentPath) return true
 
-  let CurrentComponent = matchedRoute?.component || NotFoundPage
-  const guard = matchedRoute?.guard
-  const redirectTo = matchedRoute?.redirectTo
+      const matchResult = match(path, { decode: decodeURIComponent })
+      const matched = matchResult(currentPath)
+      if (!matched) return false
 
-  if (guard && !guard()) {
-    if (redirectTo) {
+      routeParams = matched.params
+      return true
+    })
+
+    return { matchedRoute: foundRoute, params: routeParams }
+  }, [routes, currentPath])
+
+  // Handle redirect navigation in a separate effect
+  useEffect(() => {
+    const guard = matchedRoute?.guard
+    const redirectTo = matchedRoute?.redirectTo
+
+    if (guard && !guard() && redirectTo) {
       navigateTo(redirectTo)
-      const RedirectComponent =
-        routes.find((r) => r.path === redirectTo)?.component || NotFoundPage
-      CurrentComponent = RedirectComponent
-    } else {
-      CurrentComponent = ForbiddenPage
     }
-  }
+  }, [matchedRoute])
+
+  // Determine the component to render
+  const CurrentComponent = useMemo(() => {
+    if (!matchedRoute) return NotFoundPage
+
+    const guard = matchedRoute.guard
+    const redirectTo = matchedRoute.redirectTo
+
+    if (guard && !guard()) {
+      if (redirectTo) {
+        const redirectRoute = routes.find((r) => r.path === redirectTo)
+        return redirectRoute?.component || NotFoundPage
+      }
+      return ForbiddenPage
+    }
+
+    return matchedRoute.component
+  }, [matchedRoute, routes, NotFoundPage, ForbiddenPage])
+
   return { CurrentComponent, params }
 }
