@@ -1,3 +1,3 @@
-export function Route({ path, component }) {
-  return { path, component }
+export function Route({ path, component, guard, redirectTo }) {
+  return { path, component, guard, redirectTo }
 }
