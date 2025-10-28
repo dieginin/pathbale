@@ -7,8 +7,8 @@ import { match } from "path-to-regexp"
 export function Router({
   children,
   routes = [],
-  loadingPage: LoadingPage = () => <h1>Loading...</h1>, // TODO Mejorar componente de carga
   notFoundPage: NotFoundPage = () => <h1>404 - Not Found</h1>, // TODO Mejorar componente 404
+  loadingComponent: LoadingComponent = <h1>Loading...</h1>, // TODO Mejorar componente de carga
 }) {
   const [currentPath, setCurrentPath] = useState(getCurrentPath())
 
@@ -39,7 +39,7 @@ export function Router({
     })?.component || NotFoundPage
 
   return (
-    <Suspense fallback={LoadingPage}>
+    <Suspense fallback={LoadingComponent}>
       <CurrentComponent params={params} />
     </Suspense>
   )

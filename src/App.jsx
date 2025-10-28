@@ -6,6 +6,7 @@ const AboutPage = lazy(() => import("./pages/About"))
 const HomePage = lazy(() => import("./pages/Home"))
 const Page404 = lazy(() => import("./pages/404"))
 const SearchPage = lazy(() => import("./pages/Search"))
+const LoadingPage = lazy(() => import("./pages/Loading"))
 
 const appRoutes = [
   { path: "/", component: HomePage },
@@ -24,7 +25,11 @@ const appRoutes = [
 function App() {
   return (
     <main>
-      <Router routes={appRoutes} notFoundPage={Page404}>
+      <Router
+        routes={appRoutes}
+        notFoundPage={Page404}
+        loadingComponent={<LoadingPage />}
+      >
         <Route path='/about' component={AboutPage} />
         <Route path='/search/:query' component={SearchPage} />
       </Router>
