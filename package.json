@@ -1,17 +1,11 @@
 {
   "name": "pathbale",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight and declarative router for React by NextBale.",
   "type": "module",
   "main": "lib/index.js",
   "module": "lib/index.js",
-  "exports": {
-    ".": {
-      "import": "./lib/index.js",
-      "require": "./lib/index.js"
-    },
-    "./package.json": "./package.json"
-  },
+  "exports": "./lib/index.js",
   "keywords": [
     "react",
     "router",
