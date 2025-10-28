@@ -6,3 +6,8 @@ export const navigateTo = (href) => {
   window.history.pushState({}, "", href)
   window.dispatchEvent(new Event(EVENTS.PUSHSTATE))
 }
+
+export const goBack = () => {
+  window.history.back()
+  window.dispatchEvent(new Event(EVENTS.POPSTATE))
+}

@@ -9,6 +9,7 @@ Key ideas:
 - Guarded/protected routes with optional redirection.
 - Dynamic paths with params for i18n, search, and any custom matching.
 - Works great with React.lazy and Suspense.
+- Includes a PopLink helper to go back in browser history.
 
 ---
 
@@ -94,14 +95,18 @@ You can use both at once. Internally, routes from the `routes` prop are combined
 
 ---
 
-## 🧭 Navigation with `Link`
+## 🧭 Navigation with `Link` and `PopLink`
 
-Use the provided `Link` component to navigate without a full page reload:
+Use the provided `Link` component to navigate without a full page reload, and `PopLink` to go back in browser history:
 
 ```jsx
-import { Link } from "pathbale"
+import { Link, PopLink } from "pathbale"
 
-;<Link to='/about'>Go to About</Link>
+// Regular link
+<Link to='/about'>Go to About</Link>
+
+// Go back one entry in history
+<PopLink className='button'>Go back</PopLink>
 ```
 
 It intercepts normal left-clicks to push history and notify the router. Modified clicks (Cmd/Ctrl/Alt/Shift) or non-self targets behave like a normal anchor tag.
@@ -166,13 +171,13 @@ const routes = [
 
 ---
 
-## 🧰 Customizing 404, 403 and loading
+## 🧰 Default pages and customizing 404, 403 and loading
 
-The router ships with sensible defaults:
+Out of the box, the Router provides simple built‑in defaults so you can start immediately:
 
-- 404: `() => <h1>404 - Not Found</h1>`
-- 403: `() => <h1>403 - Forbidden</h1>`
-- Loading: `<h1>Loading...</h1>` used as the Suspense fallback
+- 404: a minimal `NotFound404` page
+- 403: a minimal `Forbidden403` page
+- Loading: a lightweight `<Loading />` component used as the Suspense fallback
 
 You can override any of them:
 
@@ -193,7 +198,7 @@ const Loading = () => <div>Loading…</div>
 </Router>
 ```
 
-Note: `notFoundPage` and `forbiddenPage` expect React components (not elements). `loadingComponent` expects a React node (e.g., `<Loading />`).
+Note: `notFoundPage` and `forbiddenPage` expect React components (not elements). `loadingComponent` expects a React node (e.g., `<Loading />`). The built‑in defaults are intentionally simple placeholders—override them with your own styled UI as needed.
 
 ---
 
@@ -288,6 +293,16 @@ Props:
 Behavior:
 
 - Intercepts left-clicks without modifiers and calls the router’s navigation under the hood.
+
+### `<PopLink />`
+
+Props:
+
+- Accepts standard `<a>` props (e.g., `className`, `style`, `children`).
+
+Behavior:
+
+- Calls `history.back()` and emits a `popstate` event so the router updates. Useful for simple "Back" buttons.
 
 ---
 
